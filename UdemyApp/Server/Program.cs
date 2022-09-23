@@ -2,6 +2,9 @@ global using Microsoft.EntityFrameworkCore;
 global using UdemyApp.Shared;
 global using UdemyApp.Server.Services.AuthService;
 global using UdemyApp.Server.Data;
+global using UdemyApp.Server.Services.RuleService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +19,21 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IRuleService, RuleService>();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8
+            .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+
+        };
+    });
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -40,6 +58,9 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapRazorPages();

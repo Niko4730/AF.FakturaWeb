@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using UdemyApp.Server.Data;
 
@@ -11,9 +12,10 @@ using UdemyApp.Server.Data;
 namespace UdemyApp.Server.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    partial class MainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220923085823_Rules")]
+    partial class Rules
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,24 +49,6 @@ namespace UdemyApp.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Rules");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "This is a test",
-                            Occurrence = "Every damn day",
-                            Title = "TestRule",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "This is a test1",
-                            Occurrence = "Every damn day1",
-                            Title = "TestRule1",
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("UdemyApp.Shared.User", b =>

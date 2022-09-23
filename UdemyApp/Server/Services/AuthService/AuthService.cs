@@ -9,11 +9,13 @@ namespace UdemyApp.Server.Services.AuthService
     {
         private readonly MainDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(MainDbContext context, IConfiguration configuration)
+        public AuthService(MainDbContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ServiceResponse<string>> Login(string email, string password)
@@ -110,5 +112,28 @@ namespace UdemyApp.Server.Services.AuthService
 
             return jwt;
         }
+
+        public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "User not found."
+                };
+            }
+            CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResponse<bool> { Data = true, Message = "Password has been changed" };
+        }
+
+        public int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 }
