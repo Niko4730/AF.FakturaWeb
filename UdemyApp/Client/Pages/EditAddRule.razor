@@ -37,7 +37,7 @@ else
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public int? Id { get; set; }
 
     string btnText = string.Empty;
     string btnTextDelete = string.Empty;
@@ -68,6 +68,7 @@ else
         if (Id == null)
         {
             await RuleService.CreateRule(rule);
+            NavigationManager.NavigateTo("/rules");
         }
         else
         {

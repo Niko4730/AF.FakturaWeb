@@ -1,5 +1,5 @@
 ﻿.home-button {
+    outline: hidden;
     white-space: nowrap;
     margin-right: 10px;
-    transform: rotate(-5deg);
 }
