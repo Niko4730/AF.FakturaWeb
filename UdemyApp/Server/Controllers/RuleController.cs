@@ -26,13 +26,13 @@ namespace UdemyApp.Server.Controllers
             var result = await _ruleservice.GetRuleById(id);
             return Ok(result);
         }
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<ActionResult<ServiceResponse<Rule>>> CreateRule(Rule rule)
         {
             var result = await _ruleservice.CreateRule(rule);
             return Ok(result);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<ServiceResponse<Rule>>> UpdateRule(Rule rule)
         {
             var result = await _ruleservice.UpdateRule(rule);

@@ -1,0 +1,58 @@
+﻿@page "/rules"
+@inject IRuleService RuleService
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<h3>RuleList</h3>
+
+@if(rules == null)
+{
+    <span>Loading your rules...</span>
+}
+else if (rules.Count <= 0)
+{
+    <span>You have no rules</span>
+    <br />
+    <button class="btn btn-primary" @onclick="CreateRule">Create Rule</button>
+}
+else
+{
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description </th>
+                    <th>Occurence</th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rule in rules)
+                {
+                    <tr>
+                        <th>@rule.Title</th>
+                        <th>@rule.Description</th>
+                        <th>@rule.Occurrence</th>      
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button class="btn btn-primary" @onclick="CreateRule">Create Rule</button>
+    
+}
+
+@code {
+    List<Rule> rules = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        rules = await RuleService.GetRules();
+    }
+    void CreateRule()
+    {
+        NavigationManager.NavigateTo("/addRule");
+    }
+    
+    }
+

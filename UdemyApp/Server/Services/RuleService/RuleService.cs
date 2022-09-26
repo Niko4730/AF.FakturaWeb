@@ -7,16 +7,27 @@ namespace UdemyApp.Server.Services.RuleService
     public class RuleService : IRuleService
     {
         private readonly MainDbContext _context;
+        private readonly IAuthService _authService;
 
-        public RuleService(MainDbContext context)
+        public RuleService(MainDbContext context, IAuthService authService)
         {
             _context = context;
+            _authService = authService;
         }
 
+        
         public List<Rule> Rules { get; set; }
 
         public async Task<ServiceResponse<Rule>> CreateRule(Rule rule)
         {
+            var userId = _authService.GetUserId();
+            new Rule
+            {
+                Title = rule.Title,
+                Description = rule.Description,
+                Occurrence = rule.Occurrence,
+                UserId = rule.UserId = userId
+            };
             _context.Rules.Add(rule);
             await _context.SaveChangesAsync();
             return new ServiceResponse<Rule> { Data = rule };
@@ -42,12 +53,23 @@ namespace UdemyApp.Server.Services.RuleService
 
         public async Task<ServiceResponse<List<Rule>>> GetAllRules()
         {
-            var response = new ServiceResponse<List<Rule>>()
+            var response = new ServiceResponse<List<Rule>>();
+            var rules = await _context.Rules
+                .Where(r => r.UserId == _authService.GetUserId())
+                .ToListAsync();
+
+            var rule = new List<Rule>();
+            rules.ForEach(r => rule.Add(new Rule
             {
-                Data = await _context.Rules.ToListAsync()
-            };
+                Id = r.Id,
+                Description = r.Description,
+                Title = r.Title,
+                Occurrence = r.Occurrence,
+            }));
+            response.Data = rule;
 
             return response;
+                
         }
 
         public async Task<ServiceResponse<Rule>> GetRuleById(int id)

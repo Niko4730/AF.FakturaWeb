@@ -1,6 +1,7 @@
 global using UdemyApp.Shared;
 global using UdemyApp.Client.Services.AuthService;
 global using Microsoft.AspNetCore.Components.Authorization;
+global using UdemyApp.Client.Services.RuleService;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using UdemyApp.Client;
@@ -17,5 +18,6 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+builder.Services.AddScoped<IRuleService, RuleService>();
 
 await builder.Build().RunAsync();
