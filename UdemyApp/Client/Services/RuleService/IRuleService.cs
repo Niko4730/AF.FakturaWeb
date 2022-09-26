@@ -4,7 +4,8 @@
     {
         Task CreateRule(Rule rule);
         Task<List<Rule>> GetRules();
-        Task<Rule> GetRuleById(int id);
-        Task UpdateRule(Rule rule);
+        Task<ServiceResponse<Rule>> GetRuleById(int id);
+        Task<Rule> UpdateRule(Rule rule);
+        Task DeleteRule(Rule rule);
     }
 }

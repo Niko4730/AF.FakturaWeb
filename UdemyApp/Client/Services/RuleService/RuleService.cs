@@ -29,15 +29,19 @@ namespace UdemyApp.Client.Services.RuleService
             }
         }
 
-        public async Task<Rule> GetRuleById(int id)
+        public async Task DeleteRule(Rule rule)
+        {
+            var result = await _http.DeleteAsync($"api/rule/{rule.Id}");            
+        }
+        
+
+        public async Task<ServiceResponse<Rule>> GetRuleById(int id)
         {
 
-            var result = await _http.GetFromJsonAsync<Rule>($"api/rule/{id}");
-            if (result != null)
-            {
-                return result;
-            }
-            throw new Exception("Rule not found");
+            var result = await _http.GetFromJsonAsync<ServiceResponse<Rule>>($"api/rule/{id}");
+            return result;
+                      
+  
         }
 
         public async Task<List<Rule>> GetRules()
@@ -46,10 +50,11 @@ namespace UdemyApp.Client.Services.RuleService
             return result.Data;
         }
 
-        public async Task UpdateRule(Rule rule)
+        public async Task<Rule> UpdateRule(Rule rule)
         {
             var result = await _http.PutAsJsonAsync($"api/rule/{rule.Id}", rule);
-            await SetRules(result);
+            var content = (await result.Content.ReadFromJsonAsync<ServiceResponse<Rule>>());
+            return content.Data;
         }
 
         private async Task<bool> IsUserAuthenticated()

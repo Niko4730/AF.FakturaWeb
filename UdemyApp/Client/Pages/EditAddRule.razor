@@ -3,6 +3,8 @@
 @inject IAuthService AuthService
 @inject IRuleService RuleService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@attribute [Authorize]
 
 @if(Id == null)
 {
@@ -18,7 +20,7 @@ else
 <EditForm Model="rule" OnSubmit="HandleSubmit">
 <div>
     <label for="title">Title</label>
-    <InputText id="title" @bind-Value="rule.Title" class="form-control"></InputText>
+    <InputText id="title" @bind-Value="rule.Title" class="form-control" required></InputText>
 </div>
 <div>
     <label for="description">Description</label>
@@ -30,12 +32,12 @@ else
 </div>
 <br />
 <button type="submit" class="btn btn-success">@btnText</button>
+ <button type="button" class="btn btn-danger" @onclick="DeleteProduct">@btnTextDelete</button>
 </EditForm>
 
 @code {
     [Parameter]
-    public int? Id { get; set; }
-    public int UserId { get; set; }
+    public int Id { get; set; }
 
     string btnText = string.Empty;
     string btnTextDelete = string.Empty;
@@ -49,17 +51,17 @@ else
         await RuleService.GetRules();
     }
 
-    //protected override async Task OnParameterSetAsync()
-    //{
-    //    if(Id == null)
-    //    {
-    //        rule.UserId = rule.UserId;
-    //    }
-    //    else
-    //    {
-    //        rule = await RuleService.GetRuleById((int)Id);
-    //    }
-    //}
+    protected override async Task OnParametersSetAsync()
+    {
+        if(Id == null)
+        {
+            rule.UserId = rule.UserId;
+        }
+        else
+        {
+            rule = (await RuleService.GetRuleById((int)Id)).Data;
+        }
+    }
 
     async Task HandleSubmit()
     {
@@ -69,8 +71,33 @@ else
         }
         else
         {
-            await RuleService.UpdateRule(rule);
+            UpdateProduct();
         }
     }
 
+    void CancelCreate()
+    {
+        NavigationManager.NavigateTo("/rules");
+    }
+
+    async void UpdateProduct()
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"Do you really want to update '{rule.Title}'?");
+        if (confirmed)
+        {
+            await RuleService.UpdateRule(rule);
+            NavigationManager.NavigateTo("rules");
+        }
+    }
+    async void DeleteProduct()
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"Do you really want to delete '{rule.Title}'?");
+        if (confirmed)
+        {
+            await RuleService.DeleteRule(rule);
+            NavigationManager.NavigateTo("rules");
+        }
+    }
 }

@@ -2,7 +2,8 @@
 @inject IRuleService RuleService
 @inject NavigationManager NavigationManager
 @attribute [Authorize]
-<h3>RuleList</h3>
+
+<PageTitle>List of rules</PageTitle>
 
 @if(rules == null)
 {
@@ -33,7 +34,10 @@ else
                     <tr>
                         <th>@rule.Title</th>
                         <th>@rule.Description</th>
-                        <th>@rule.Occurrence</th>      
+                        <th>@rule.Occurrence</th>
+                        <th>
+                    <button class="btn btn-primary" @onclick="() => ShowRule(rule.Id)"><i class="oi oi-pencil"></i></button>
+                </th>
                     </tr>
                 }
             </tbody>
@@ -53,6 +57,9 @@ else
     {
         NavigationManager.NavigateTo("/addRule");
     }
-    
+    void ShowRule(int id)
+    {
+        NavigationManager.NavigateTo($"rule/{id}");
     }
+}
 

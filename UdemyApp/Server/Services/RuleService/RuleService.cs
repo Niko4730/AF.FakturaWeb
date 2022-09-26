@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using System.Security.Claims;
 using UdemyApp.Shared;
 
@@ -35,7 +36,8 @@ namespace UdemyApp.Server.Services.RuleService
 
         public async Task<ServiceResponse<bool>> DeleteRule(int id)
         {
-            var dbRule = await _context.Rules.FindAsync(id);
+            var dbRule = await _context.Rules
+                .FindAsync(id);
             if(dbRule == null)
             {
                 return new ServiceResponse<bool>
@@ -75,6 +77,7 @@ namespace UdemyApp.Server.Services.RuleService
         public async Task<ServiceResponse<Rule>> GetRuleById(int id)
         {
             var response = new ServiceResponse<Rule>();
+            
             var rule = await _context.Rules.FindAsync(id);
             if (rule == null)
             {
@@ -90,7 +93,8 @@ namespace UdemyApp.Server.Services.RuleService
 
         public async Task<ServiceResponse<Rule>> UpdateRule(Rule rule)
         {
-            var dbRule = await _context.Rules.FindAsync(rule.Id);
+            var userId = _authService.GetUserId();
+            var dbRule = await _context.Rules.FirstOrDefaultAsync(r => r.Id == rule.Id);
             if (dbRule == null)
             {
                 return new ServiceResponse<Rule>
@@ -102,6 +106,7 @@ namespace UdemyApp.Server.Services.RuleService
             dbRule.Title = rule.Title;
             dbRule.Description = rule.Description;
             dbRule.Occurrence = rule.Occurrence;
+            dbRule.UserId = rule.UserId = userId;
 
             await _context.SaveChangesAsync();
             return new ServiceResponse<Rule> { Data = rule };
