@@ -51,7 +51,7 @@ namespace UdemyApp.Server.Services.AuthService
                     Message = "User already exists."
                 };
             }
-
+            //git test
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             user.PasswordHash = passwordHash;
