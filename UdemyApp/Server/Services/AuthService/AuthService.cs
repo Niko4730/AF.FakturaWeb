@@ -10,12 +10,16 @@ namespace UdemyApp.Server.Services.AuthService
         private readonly MainDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMailService _mailService;
 
-        public AuthService(MainDbContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public AuthService(MainDbContext context, IConfiguration configuration,
+            IHttpContextAccessor httpContextAccessor,
+            IMailService mailService)
         {
             _context = context;
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
+            _mailService = mailService;
         }
 
         public async Task<ServiceResponse<string>> Login(string email, string password)

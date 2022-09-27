@@ -3,6 +3,7 @@ global using UdemyApp.Shared;
 global using UdemyApp.Server.Services.AuthService;
 global using UdemyApp.Server.Data;
 global using UdemyApp.Server.Services.RuleService;
+global using UdemyApp.Server.Services.MailService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,12 +15,15 @@ builder.Services.AddDbContext<MainDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
+builder.Services.AddScoped<IMailService, MailService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

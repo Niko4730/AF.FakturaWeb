@@ -2,6 +2,7 @@ global using UdemyApp.Shared;
 global using UdemyApp.Client.Services.AuthService;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using UdemyApp.Client.Services.RuleService;
+global using UdemyApp.Client.Services.MailService;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using UdemyApp.Client;
