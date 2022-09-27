@@ -2,10 +2,11 @@
     display: block;
 }
 
-.user-button{
+.user-button {
     margin-left: .5em;
     margin: 15px;
     font-size: 20px;
+    margin-left: auto;
 }
 
 .top-row a {
