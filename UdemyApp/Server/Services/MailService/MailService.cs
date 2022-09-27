@@ -20,7 +20,25 @@ namespace UdemyApp.Server.Services.MailService
             mail.To.Add(MailboxAddress.Parse(request.To));
             mail.Subject = request.Subject;
             mail.Body = new TextPart(TextFormat.Html) { Text = request.Body };
-
+            var builder = new BodyBuilder();
+            if (request.Attachments != null)
+            {
+                byte[] fileBytes;
+                foreach (var file in request.Attachments)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            file.CopyTo(ms);
+                            fileBytes = ms.ToArray();
+                        }
+                        builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                    }
+                }
+            }
+            builder.HtmlBody = request.Body;
+            mail.Body = builder.ToMessageBody();
             using var smtp = new SmtpClient();
             smtp.Connect(_config.GetSection("MailSettings:EmailHost").Value, 587, SecureSocketOptions.StartTls);
             smtp.Authenticate(_config.GetSection("MailSettings:EmailUsername").Value, _config.GetSection("MailSettings:EmailPassword").Value);
