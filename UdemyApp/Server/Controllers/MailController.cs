@@ -14,7 +14,7 @@ namespace UdemyApp.Server.Controllers
             _mailService = mailService;
         }
         [HttpPost("send")]
-        public async Task<IActionResult> SendEmailAsync([FromForm] MailDto request)
+        public async Task<ActionResult<ServiceResponse<string>>> SendEmailAsync([FromBody] MailDto request)
         {
             await _mailService.SendEmailAsync(request);
             return Ok();

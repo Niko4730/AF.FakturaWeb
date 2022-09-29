@@ -2,6 +2,7 @@
 using MimeKit.Text;
 using MimeKit;
 using MailKit.Net.Smtp;
+using UdemyApp.Shared;
 
 namespace UdemyApp.Server.Services.MailService
 {
@@ -13,8 +14,9 @@ namespace UdemyApp.Server.Services.MailService
         {
             _config = config;
         }
-        public async Task SendEmailAsync(MailDto request)
+        public async Task<ServiceResponse<string>> SendEmailAsync(MailDto request)
         {
+            var response = new ServiceResponse<string>();
             var mail = new MimeMessage();
             mail.From.Add(MailboxAddress.Parse(_config.GetSection("MailSettings:EmailUsername").Value));
             mail.To.Add(MailboxAddress.Parse(request.To));
@@ -44,6 +46,9 @@ namespace UdemyApp.Server.Services.MailService
             smtp.Authenticate(_config.GetSection("MailSettings:EmailUsername").Value, _config.GetSection("MailSettings:EmailPassword").Value);
             await smtp.SendAsync(mail);
             smtp.Disconnect(true);
+            response.Message = "You have sent an email";
+            return response;
+          
         }
 
         public async Task SendWelcomeMailAsync(WelcomeMail request)

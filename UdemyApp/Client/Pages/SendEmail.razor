@@ -1,0 +1,37 @@
+﻿@page "/sendEmail"
+@inject IMailService MailService
+
+<EditForm Model="mail" OnSubmit="HandleSendEmail">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="mb-3">
+        <label for="to">Email</label>
+        <InputText id="to" @bind-Value="mail.To" class="form-control"></InputText>
+        <ValidationMessage For="@(() => mail.To)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="subject">Subject</label>
+        <InputText id="subject"  @bind-Value="mail.Subject" class="form-control"></InputText>
+        <ValidationMessage For="@(() => mail.Subject)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="body">Body</label>
+        <InputText id="body" @bind-Value="mail.Body" class="form-control"></InputText>
+        <ValidationMessage For="@(() => mail.Body)"></ValidationMessage>
+    </div>
+    <div class="mb-3">
+        <label for="attachment">Attachment</label>
+        <InputFile id="attachment" @bind-Value="mail.Attachments" class="form-control"></InputFile>
+        <ValidationMessage For="@(() => mail.Attachments)"></ValidationMessage>
+    </div>
+    <button class="btn btn-primary" type="submit">Send mail!</button>
+
+</EditForm>
+
+@code {
+    MailDto mail = new MailDto();
+
+    async Task HandleSendEmail()
+    {
+        await MailService.SendEmail(mail);     
+    }
+}

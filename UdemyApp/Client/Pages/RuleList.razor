@@ -1,6 +1,7 @@
 ﻿@page "/rules"
 @inject IRuleService RuleService
 @inject NavigationManager NavigationManager
+@inject IMailService MailService
 @attribute [Authorize]
 
 <PageTitle>List of rules</PageTitle>
@@ -43,6 +44,7 @@ else
             </tbody>
         </table>
         <button class="btn btn-primary" @onclick="CreateRule">Create Rule</button>
+        <button class="btn btn-primary" @onclick="SendEmail">Send Email</button>
     
 }
 
@@ -52,6 +54,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         rules = await RuleService.GetRules();
+    }
+    void SendEmail()
+    {
+        NavigationManager.NavigateTo("/sendEmail");
     }
     void CreateRule()
     {
