@@ -8,22 +8,22 @@
 
 <EditForm Model="user" OnValidSubmit="HandleRegistration">
     <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
-        <ValidationMessage For="@(() => user.Email)"></ValidationMessage>
-    </div>
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="user.Password" class="form-control"></InputText>
-        <ValidationMessage For="@(() => user.Password)"></ValidationMessage>
-    </div>
-    <div class="mb-3">
-        <label for="confirmPassword">Confirm Password</label>
-        <InputText id="confirmPassword" type="password" @bind-Value="user.ConfirmPassword" class="form-control"></InputText>
-        <ValidationMessage For="@(() => user.ConfirmPassword)"></ValidationMessage>
-    </div>
-    <button class="btn btn-primary" type="submit" >Register!</button>
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Email" @bind-Value="user.Email"
+                          For="@(() => user.Email)"
+                          HelperText="Must be a valid Email"></MudTextField>
+            <MudTextField Label="Password" @bind-Value="user.Password"
+                          For="@(() => user.Password)"
+                          InputType="InputType.Password"
+                          HelperText="Must be a valid Password"></MudTextField>
+            <MudTextField Label="ConfirmPassword" @bind-Value="user.ConfirmPassword"
+                          For="@(() => user.ConfirmPassword)"
+                          InputType="InputType.Password"
+                          HelperText="The password must match"></MudTextField>
+        </MudCardContent>
+    </MudCard>
+    <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mt-2">Register!</MudButton>
     <div class="@messageCssClass">
         <span>@message</span>
     </div>

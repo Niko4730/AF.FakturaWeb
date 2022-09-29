@@ -8,17 +8,18 @@
 
 <EditForm Model="user" OnValidSubmit="HandleLogin">
     <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="mb-3">
-        <label for="email">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
-        <ValidationMessage For="@(() => user.Email)"></ValidationMessage>
-    </div>
-    <div class="mb-3">
-        <label for="password">Password</label>
-        <InputText id="password" type="password" @bind-Value="user.Password" class="form-control"></InputText>
-        <ValidationMessage For="@(() => user.Password)"></ValidationMessage>
-    </div>
-    <button class="btn btn-primary" type="submit">Login</button>
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Email" @bind-Value="user.Email"
+                          For="@(() => user.Email)"
+                          HelperText="Must be a valid Email"></MudTextField>
+            <MudTextField Label="Password" @bind-Value="user.Password"
+                          For="@(() => user.Password)"
+                          InputType="InputType.Password"
+                          HelperText="Must be a valid Password"></MudTextField>
+        </MudCardContent>       
+    </MudCard>
+    <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mb-2">Login</MudButton>
 </EditForm>
 <div class="text-danger">
     <span>@errorMessage</span>
