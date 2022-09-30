@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
-using System.Security.Claims;
-using UdemyApp.Shared;
-
-namespace UdemyApp.Server.Services.RuleService
+﻿namespace UdemyApp.Server.Services.RuleService
 {
     public class RuleService : IRuleService
     {
@@ -16,7 +11,7 @@ namespace UdemyApp.Server.Services.RuleService
             _authService = authService;
         }
 
-        
+
         public List<Rule> Rules { get; set; }
 
         public async Task<ServiceResponse<Rule>> CreateRule(Rule rule)
@@ -38,7 +33,7 @@ namespace UdemyApp.Server.Services.RuleService
         {
             var dbRule = await _context.Rules
                 .FindAsync(id);
-            if(dbRule == null)
+            if (dbRule == null)
             {
                 return new ServiceResponse<bool>
                 {
@@ -71,13 +66,13 @@ namespace UdemyApp.Server.Services.RuleService
             response.Data = rule;
 
             return response;
-                
+
         }
 
         public async Task<ServiceResponse<Rule>> GetRuleById(int id)
         {
             var response = new ServiceResponse<Rule>();
-            
+
             var rule = await _context.Rules.FindAsync(id);
             if (rule == null)
             {

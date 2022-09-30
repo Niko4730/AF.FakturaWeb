@@ -1,5 +1,4 @@
 ﻿using System.Net.Http.Json;
-using static System.Net.WebRequestMethods;
 
 namespace UdemyApp.Client.Services.MailService
 {

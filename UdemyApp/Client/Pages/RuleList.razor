@@ -6,7 +6,7 @@
 
 <PageTitle>List of rules</PageTitle>
 
-@if(rules == null)
+@if (rules == null)
 {
     <span>Loading your rules...</span>
 }
@@ -18,28 +18,28 @@ else if (rules.Count <= 0)
 }
 else
 {
-        <MudTable Items="rules" Hover="true" Striped="true" Dense="true" Class="mb-2">
-            <HeaderContent>               
-                    <MudTh>Title</MudTh>
-                    <MudTh>Description </MudTh>
-                    <MudTh>Occurence</MudTh>
-                    <MudTh>Edit</MudTh>
-            </HeaderContent>
-            <RowTemplate>
-                        <MudTd DataLabel="Title">@context.Title</MudTd>
-                        <MudTd DataLabel="Description">@context.Description</MudTd>
-                        <MudTd DataLabel="Occurrence">@context.Occurrence</MudTd>
-                        <MudTd> 
-                    <MudIconButton OnClick="(() => ShowRule(context.Id))"
-                                    Icon="@Icons.Material.Filled.Edit"
-                                    Color="Color.Primary"
-                                    Variant="Variant.Filled"></MudIconButton>
-                </MudTd>                
-            </RowTemplate>
-        </MudTable>
-        <MudButton Variant="Variant.Filled" @onclick="CreateRule">Create Rule</MudButton>
-        <MudButton Variant="Variant.Filled" @onclick="SendEmail">Send Email</MudButton>
-    
+    <MudTable Items="rules" Hover="true" Striped="true" Dense="true" Class="mb-2">
+        <HeaderContent>
+            <MudTh>Title</MudTh>
+            <MudTh>Description </MudTh>
+            <MudTh>Occurence</MudTh>
+            <MudTh>Edit</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Title">@context.Title</MudTd>
+            <MudTd DataLabel="Description">@context.Description</MudTd>
+            <MudTd DataLabel="Occurrence">@context.Occurrence</MudTd>
+            <MudTd>
+                <MudIconButton OnClick="(() => ShowRule(context.Id))"
+                           Icon="@Icons.Material.Filled.Edit"
+                           Color="Color.Primary"
+                           Variant="Variant.Filled"></MudIconButton>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+    <MudButton Variant="Variant.Filled" @onclick="CreateRule">Create Rule</MudButton>
+    <MudButton Variant="Variant.Filled" @onclick="SendEmail">Send Email</MudButton>
+
 }
 
 @code {

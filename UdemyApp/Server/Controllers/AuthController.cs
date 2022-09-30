@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -49,7 +48,7 @@ namespace UdemyApp.Server.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var response = await _authService.ChangePassword(int.Parse(userId), newPassword);
 
-            if(!response.Success)
+            if (!response.Success)
             {
                 return BadRequest(response);
             }

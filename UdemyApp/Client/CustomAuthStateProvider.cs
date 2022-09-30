@@ -1,5 +1,4 @@
 ﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
@@ -26,11 +25,14 @@ namespace UdemyApp.Client
 
             if (!string.IsNullOrEmpty(authToken))
             {
-                try {
+                try
+                {
                     identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
                     _http.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
-                } catch {
+                }
+                catch
+                {
                     await _localStorageService.RemoveItemAsync("authToken");
                     identity = new ClaimsIdentity();
                 }
@@ -42,9 +44,9 @@ namespace UdemyApp.Client
 
             return state;
         }
-         private byte[] ParseBase64WithoutPadding(string base64)
+        private byte[] ParseBase64WithoutPadding(string base64)
         {
-            switch(base64.Length % 4)
+            switch (base64.Length % 4)
             {
                 case 2: base64 += "=="; break;
                 case 3: base64 += "="; break;

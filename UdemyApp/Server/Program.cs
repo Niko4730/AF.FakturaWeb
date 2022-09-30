@@ -1,9 +1,9 @@
 global using Microsoft.EntityFrameworkCore;
-global using UdemyApp.Shared;
-global using UdemyApp.Server.Services.AuthService;
 global using UdemyApp.Server.Data;
-global using UdemyApp.Server.Services.RuleService;
+global using UdemyApp.Server.Services.AuthService;
 global using UdemyApp.Server.Services.MailService;
+global using UdemyApp.Server.Services.RuleService;
+global using UdemyApp.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 

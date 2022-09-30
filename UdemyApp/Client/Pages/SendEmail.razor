@@ -10,7 +10,7 @@
     </div>
     <div class="mb-3">
         <label for="subject">Subject</label>
-        <InputText id="subject"  @bind-Value="mail.Subject" class="form-control"></InputText>
+        <InputText id="subject" @bind-Value="mail.Subject" class="form-control"></InputText>
         <ValidationMessage For="@(() => mail.Subject)"></ValidationMessage>
     </div>
     <div class="mb-3">
@@ -32,6 +32,6 @@
 
     async Task HandleSendEmail()
     {
-        await MailService.SendEmail(mail);     
+        await MailService.SendEmail(mail);
     }
 }

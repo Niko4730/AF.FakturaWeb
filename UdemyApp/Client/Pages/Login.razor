@@ -17,7 +17,7 @@
                           For="@(() => user.Password)"
                           InputType="InputType.Password"
                           HelperText="Must be a valid Password"></MudTextField>
-        </MudCardContent>       
+        </MudCardContent>
     </MudCard>
     <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Class="mb-2">Login</MudButton>
 </EditForm>
@@ -33,7 +33,7 @@
     private async Task HandleLogin()
     {
         var result = await AuthService.Login(user);
-        if(result.Success)
+        if (result.Success)
         {
             errorMessage = string.Empty;
 
@@ -41,7 +41,8 @@
             await AuthenticationStateProvider.GetAuthenticationStateAsync();
             NavigationManager.NavigateTo("");
         }
-        else{
+        else
+        {
             errorMessage = result.Message;
         }
     }

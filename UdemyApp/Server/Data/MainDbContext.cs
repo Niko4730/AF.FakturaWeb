@@ -5,7 +5,7 @@ namespace UdemyApp.Server.Data
     {
         public MainDbContext(DbContextOptions<MainDbContext> options) : base(options)
         {
-           
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -13,7 +13,7 @@ namespace UdemyApp.Server.Data
             modelBuilder.Entity<Rule>().HasData(
                 new Rule
                 {
-                    Id= 1,
+                    Id = 1,
                     Title = "TestRule",
                     Description = "This is a test",
                     Occurrence = "Every damn day",

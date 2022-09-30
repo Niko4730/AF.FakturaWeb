@@ -1,8 +1,7 @@
-﻿using MailKit.Security;
-using MimeKit.Text;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using MimeKit;
-using MailKit.Net.Smtp;
-using UdemyApp.Shared;
+using MimeKit.Text;
 
 namespace UdemyApp.Server.Services.MailService
 {
@@ -48,7 +47,7 @@ namespace UdemyApp.Server.Services.MailService
             smtp.Disconnect(true);
             response.Message = "You have sent an email";
             return response;
-          
+
         }
 
         public async Task SendWelcomeMailAsync(WelcomeMail request)

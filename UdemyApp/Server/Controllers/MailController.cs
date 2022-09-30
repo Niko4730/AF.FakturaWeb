@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace UdemyApp.Server.Controllers
 {
@@ -20,7 +19,7 @@ namespace UdemyApp.Server.Controllers
             return Ok();
         }
         [HttpPost("welcome")]
-        public async Task<IActionResult> SendWelcomeMail (WelcomeMail request)
+        public async Task<IActionResult> SendWelcomeMail(WelcomeMail request)
         {
             await _mailService.SendWelcomeMailAsync(request);
             return Ok();

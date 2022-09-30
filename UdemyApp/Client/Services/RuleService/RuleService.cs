@@ -19,7 +19,7 @@ namespace UdemyApp.Client.Services.RuleService
 
         public async Task CreateRule(Rule rule)
         {
-            if(await IsUserAuthenticated())
+            if (await IsUserAuthenticated())
             {
                 await _http.PostAsJsonAsync("api/rule/add", rule);
             }
@@ -31,17 +31,17 @@ namespace UdemyApp.Client.Services.RuleService
 
         public async Task DeleteRule(Rule rule)
         {
-            var result = await _http.DeleteAsync($"api/rule/{rule.Id}");            
+            var result = await _http.DeleteAsync($"api/rule/{rule.Id}");
         }
-        
+
 
         public async Task<ServiceResponse<Rule>> GetRuleById(int id)
         {
 
             var result = await _http.GetFromJsonAsync<ServiceResponse<Rule>>($"api/rule/{id}");
             return result;
-                      
-  
+
+
         }
 
         public async Task<List<Rule>> GetRules()
