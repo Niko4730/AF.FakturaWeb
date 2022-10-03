@@ -2,36 +2,67 @@
 @inject IMailService MailService
 
 <EditForm Model="mail" OnSubmit="HandleSendEmail">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="mb-3">
-        <label for="to">Email</label>
-        <InputText id="to" @bind-Value="mail.To" class="form-control"></InputText>
-        <ValidationMessage For="@(() => mail.To)"></ValidationMessage>
-    </div>
-    <div class="mb-3">
-        <label for="subject">Subject</label>
-        <InputText id="subject" @bind-Value="mail.Subject" class="form-control"></InputText>
-        <ValidationMessage For="@(() => mail.Subject)"></ValidationMessage>
-    </div>
-    <div class="mb-3">
-        <label for="body">Body</label>
-        <InputText id="body" @bind-Value="mail.Body" class="form-control"></InputText>
-        <ValidationMessage For="@(() => mail.Body)"></ValidationMessage>
-    </div>
-    <div class="mb-3">
-        <label for="attachment">Attachment</label>
-        <InputFile id="attachment" @bind-Value="mail.Attachments" class="form-control"></InputFile>
-        <ValidationMessage For="@(() => mail.Attachments)"></ValidationMessage>
-    </div>
-    <button class="btn btn-primary" type="submit">Send mail!</button>
-
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Email" @bind-Value="mail.To"
+                          For="@(() => mail.To)"
+                          HelperText="Must be a valid Email"></MudTextField>
+            <MudTextField Label="Subject" @bind-Value="mail.Subject"
+                          For="@(() => mail.Subject)"></MudTextField>
+            <MudTextField T="string" Variant="Variant.Text" Lines="5" Label="Body" @bind-Value="mail.Body"
+                          For="@(() => mail.Body)"></MudTextField>
+            <label class="mt-3" style="
+        box-shadow: 0 2px 7px #4caf50;
+        display: inline-flex;
+        width: 150px;
+        justify-content: space-around;
+        border-radius: 2em;
+        color: white;
+        border:2px solid;
+        cursor: pointer;
+        align-items: center;
+        padding:16px;
+        background-color: #4caf50;"
+                   for="attachment">
+                Upload <MudIcon Icon="@Icons.Filled.CloudUpload" />
+            </label>
+            <InputFile id="attachment" OnChange="LoadFiles" @bind-Value="mail.Attachments" class="form-control" hidden multiple></InputFile>
+            @foreach (var file in loadedFiles)
+            {
+                <MudList>
+                    <MudListItem Icon="@Icons.Filled.AttachFile">
+                        @file.Name <code>@file.Size bytes</code>
+                    </MudListItem>
+                </MudList>
+            }
+        </MudCardContent>
+    </MudCard>
+    <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Send" Class="mt-2">Send mail</MudButton>
 </EditForm>
 
 @code {
     MailDto mail = new MailDto();
+    private List<IBrowserFile> loadedFiles = new List<IBrowserFile>();
+    private bool isLoading;
+    private int maxAllowedFiles = 3;
 
     async Task HandleSendEmail()
     {
         await MailService.SendEmail(mail);
+    }
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+
+            loadedFiles.Add(file);
+        }
+
+        isLoading = false;
+       
     }
 }

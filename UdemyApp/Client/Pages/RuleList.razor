@@ -37,9 +37,8 @@ else
             </MudTd>
         </RowTemplate>
     </MudTable>
-    <MudButton Variant="Variant.Filled" @onclick="CreateRule">Create Rule</MudButton>
-    <MudButton Variant="Variant.Filled" @onclick="SendEmail">Send Email</MudButton>
-
+    <MudButton Variant="Variant.Filled" Color="Color.Success" @onclick="CreateRule" Class="m-2">Create Rule</MudButton>
+    <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Email" @onclick="SendEmail">Send Email</MudButton>
 }
 
 @code {

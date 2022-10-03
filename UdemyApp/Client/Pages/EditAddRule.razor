@@ -16,25 +16,23 @@ else
     <PageTitle><h3>Edit @rule.Title</h3></PageTitle>
     <h3>Edit @rule.Title</h3>
 }
-
 <EditForm Model="rule" OnSubmit="HandleSubmit">
-    <div>
-        <label for="title">Title</label>
-        <InputText id="title" @bind-Value="rule.Title" class="form-control" required></InputText>
-    </div>
-    <div>
-        <label for="description">Description</label>
-        <InputText id="description" @bind-Value="rule.Description" class="form-control"></InputText>
-    </div>
-    <div>
-        <label for="occurence">Occurence</label>
-        <InputText id="occurence" @bind-Value="rule.Occurrence" class="form-control"></InputText>
-    </div>
-    <br />
-    <button type="submit" class="btn btn-success">@btnText</button>
-    <button type="button" class="btn btn-danger" @onclick="DeleteProduct">@btnTextDelete</button>
+<MudCard>
+        <MudCardContent>
+            <MudTextField Label="Title" @bind-Value="rule.Title"
+                          For="@(() => rule.Title)"
+                          ></MudTextField>
+            <MudTextField Label="Description" @bind-Value="rule.Description"
+                          For="@(() => rule.Description)"
+                          ></MudTextField>
+            <MudTextField Label="Occurrence" @bind-Value="rule.Occurrence"
+                          For="@(() => rule.Occurrence)"
+                          ></MudTextField>
+        </MudCardContent>
+    </MudCard>
+    <MudButton Variant="Variant.Filled" ButtonType="ButtonType.Submit" Color="Color.Info" StartIcon="@Icons.Material.Filled.Save" Class="mt-2">@btnText</MudButton>
+    <MudButton Variant="Variant.Filled" OnClick="CancelCreate" StartIcon="@Icons.Material.Filled.Delete" Color="Color.Error" ButtonType="ButtonType.Button" Class="mt-2">@btnTextDelete</MudButton>
 </EditForm>
-
 @code {
     [Parameter]
     public int? Id { get; set; }
@@ -72,7 +70,7 @@ else
         }
         else
         {
-            UpdateProduct();
+            UpdateRule();
         }
     }
 
@@ -81,7 +79,7 @@ else
         NavigationManager.NavigateTo("/rules");
     }
 
-    async void UpdateProduct()
+    async void UpdateRule()
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
             $"Do you really want to update '{rule.Title}'?");
@@ -91,7 +89,7 @@ else
             NavigationManager.NavigateTo("rules");
         }
     }
-    async void DeleteProduct()
+    async void DeleteRule()
     {
         bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
             $"Do you really want to delete '{rule.Title}'?");
